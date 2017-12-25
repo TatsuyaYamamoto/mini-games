@@ -1,9 +1,23 @@
 <pop-name>
     <img src="https://pbs.twimg.com/media/CVoPQ-1VAAA0btq.jpg"/>
     <p>pop-name component</p>
+    <input type="text" name="target" oninput="{ onNameInput }">
+    <button onclick="{ onSubmitName }">決定</button>
+    <p>text: { targetName }</p>
+
     <script>
-        this.on('mount', function(){
+        this.targetName = "";
+
+        this.on('mount', function () {
             console.log("pop name mounted.");
-        })
+        });
+
+        this.onNameInput = function (e) {
+            this.targetName = e.target.value;
+        };
+
+        this.onSubmitName = function (e) {
+            console.log(e);
+        };
     </script>
 </pop-name>
