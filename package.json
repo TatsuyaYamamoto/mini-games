@@ -1,0 +1,14 @@
+{
+  "name": "pop-team-crash",
+  "version": "0.0.1",
+  "description": "kusoge",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server app"
+  },
+  "author": "TatsuyaYamamoto",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}

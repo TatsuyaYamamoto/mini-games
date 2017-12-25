@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Pop Team Crash</title>
+</head>
+<body>
+<pop-name></pop-name>
+<pop-crash></pop-crash>
+
+<script type="riot/tag" src="tags/name.html"></script>
+<script type="riot/tag" src="tags/crash.html"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.7.4/riot+compiler.min.js"></script>
+<script>
+    riot.compile(function () {
+        var tags = riot.mount('*');
+        console.log(tags);
+    });
+</script>
+
+</body>
+</html>
