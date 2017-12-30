@@ -1,13 +1,27 @@
 <pop-name>
-    <img src="https://pbs.twimg.com/media/CVoPQ-1VAAA0btq.jpg"/>
-    <input id="signboard-text" type="text" name="target" oninput="{ onNameInput }">
+    <img id="name-image" src="images/name.png"/>
+    <input id="signboard-text" type="text" name="target" value="{ targetName }" oninput="{ onNameInput }">
     <button id="submit-button" onclick="{ onSubmitName }">決定</button>
 
     <script>
-        this.targetName = "";
+        this.targetName = get()["boardName"];
 
         this.on('mount', function () {
             console.log("pop name mounted.");
+
+            const nameImage = document.getElementById("name-image");
+            nameImage.onload = () => {
+                this.calcComponentPosition();
+            };
+            window.addEventListener("resize", () => {
+                this.calcComponentPosition();
+            });
+        });
+
+        this.on('before-unmount', function () {
+            console.log("pop name unmounting.");
+
+            window.removeEventListener("resize", this.calcComponentPosition);
         });
 
         this.onNameInput = function (e) {
@@ -15,10 +29,27 @@
         };
 
         this.onSubmitName = function (e) {
-            console.log(e);
-
+            save("boardName", this.targetName);
             route("crash");
         };
+
+        this.calcComponentPosition = function () {
+            const nameImage = document.getElementById("name-image");
+            const {clientWidth, clientHeight} = nameImage;
+
+            const signboardText = document.getElementById("signboard-text");
+            signboardText.style.top = -1 * clientHeight * 0.33;
+            signboardText.style.left = clientWidth * 0.1;
+            signboardText.style.height = clientHeight * 0.2;
+            signboardText.style.width = clientWidth * 0.5;
+            signboardText.style.fontSize = clientWidth * 0.07;
+
+            const submitButton = document.getElementById("submit-button");
+            submitButton.style.top = -1 * clientHeight * 0.25;
+            submitButton.style.left = clientWidth * 0.27;
+            submitButton.style.fontSize = clientWidth * 0.04;
+        }
+
     </script>
 
     <style>
@@ -29,22 +60,21 @@
             height: 100%;
         }
 
+        #name-image {
+            width: 100%;
+            height: auto;
+        }
+
         #signboard-text {
-            position: absolute;
-            top: 220px;
-            left: 70px;
-            width: 200px;
-            height: 70px;
-            font-size: 40px;
+            position: relative;
             border: none;
+            background-color: rgba(255, 255, 255, 0);
             transform: rotate(-2deg);
         }
 
         #submit-button {
             display: inline-block;
-            position: absolute;
-            top: 280px;
-            left: 380px;
+            position: relative;
             padding: 0.5em 1em;
             text-decoration: none;
             background: #668ad8;
