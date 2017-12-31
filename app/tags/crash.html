@@ -1,11 +1,13 @@
 <pop-crash>
     <pop-crash-before if={ isReady }
-                      building-initial={ buildingInitial }></pop-crash-before>
+                      onclick={crash}
+                      building-initial={buildingInitial}></pop-crash-before>
     <pop-crash-after if={ !isReady }
-                     shout-word={ shoutWord }
-                     building-initial={ buildingInitial }></pop-crash-after>
+                     shout-word={shoutWord}
+                     building-initial={buildingInitial}></pop-crash-after>
 
-    <menu-svg id="menu-icon" onclick={showMenu}></menu-svg>
+    <back-svg id="back-icon" onclick={goNameView}></back-svg>
+    <question-svg id="question-icon" onclick={showHelp}></question-svg>
 
 
     <script>
@@ -15,24 +17,19 @@
 
         this.on('mount', () => {
             console.log("pop crash mounted.");
-
-            // prevent fire after mounting immediately
-            setTimeout(() => window.addEventListener("click", this.crash), 0);
-        });
-
-        this.on('before-unmount', () => {
-            window.removeEventListener("click", this.crash)
         });
 
         this.crash = () => {
             this.update({isReady: false});
 
-            setTimeout(() => {
-                this.update({isReady: true});
-            }, 1000);
+            setTimeout(() => this.update({isReady: true}), 1000);
         };
 
-        this.showMenu = function () {
+        this.goNameView = function () {
+            route("/");
+        };
+
+        this.showHelp = function () {
             swal({
                 title: "Good job!",
                 text: "You clicked the button!",
@@ -48,12 +45,6 @@
             background-color: rgba(0, 0, 0, 0.05);
             width: 100%;
             height: 100%;
-        }
-
-        #menu-icon {
-            position: absolute;
-            top: 30px;
-            left: 30px;
         }
     </style>
 </pop-crash>
@@ -158,19 +149,3 @@
         }
     </style>
 </pop-crash-after>
-
-<!--http://icooon-mono.com/12607-%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC%E3%81%AE%E3%83%95%E3%83%AA%E3%83%BC%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B312/-->
-<menu-svg>
-    <svg version="1.1"
-         x="0px"
-         y="0px"
-         viewBox="0 0 512 512"
-         style="width: 32px; height: 32px; opacity: 1;">
-        <g>
-            <path style="fill: rgb(75, 75, 75);"
-                  d="M256,0C114.617,0,0,114.618,0,256c0,141.383,114.617,256,256,256c141.382,0,256-114.617,256-256
-		C512,114.618,397.382,0,256,0z M373.649,366.297H138.351V322.18h235.298V366.297z M373.649,278.055H138.351v-44.102h235.298
-		V278.055z M373.649,189.828H138.351v-44.117h235.298V189.828z"></path>
-        </g>
-    </svg>
-</menu-svg>
