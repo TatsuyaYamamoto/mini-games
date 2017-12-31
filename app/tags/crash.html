@@ -14,9 +14,10 @@
         this.isReady = true;
 
         this.on('mount', () => {
-            console.log("pop name mounted.");
+            console.log("pop crash mounted.");
 
-            window.addEventListener("click", this.crash);
+            // prevent fire after mounting immediately
+            setTimeout(() => window.addEventListener("click", this.crash), 0);
         });
 
         this.on('before-unmount', () => {
@@ -48,6 +49,7 @@
             width: 100%;
             height: 100%;
         }
+
         #menu-icon {
             position: absolute;
             top: 30px;
@@ -62,9 +64,16 @@
     <div id="building-initial"> {opts.buildingInitial}</div>
 
     <script>
-        this.on('mount', function () {
-            const crashImage = document.getElementById("crash-image");
-            crashImage.onload = this.calcComponentPosition;
+        this.crashImage = null;
+        this.buildingInitial = null;
+
+        this.on('mount', () => {
+            console.log("crash before mounted");
+
+            this.crashImage = document.getElementById("crash-image");
+            this.buildingInitial = document.getElementById("building-initial");
+
+            this.crashImage.onload = () => this.calcComponentPosition();
             window.addEventListener("resize", this.calcComponentPosition);
         });
 
@@ -72,14 +81,12 @@
             window.removeEventListener("resize", this.calcComponentPosition);
         });
 
-        this.calcComponentPosition = function () {
-            const crashImage = document.getElementById("crash-image");
-            const {clientWidth, clientHeight} = crashImage;
+        this.calcComponentPosition = function (e) {
+            const {clientWidth, clientHeight} = this.crashImage;
 
-            const buildingInitial = document.getElementById("building-initial");
-            buildingInitial.style.top = clientHeight * 0.45;
-            buildingInitial.style.left = clientWidth * 0.26;
-            buildingInitial.style.fontSize = clientWidth * 0.05;
+            this.buildingInitial.style.top = clientHeight * 0.45;
+            this.buildingInitial.style.left = clientWidth * 0.26;
+            this.buildingInitial.style.fontSize = clientWidth * 0.05;
         }
     </script>
 
@@ -103,9 +110,18 @@
     <div id="crashed-building-initial"> {opts.buildingInitial}</div>
 
     <script>
+        this.crashImage = null;
+        this.shoutWord = null;
+        this.buildingInitial = null;
+
         this.on('mount', function () {
-            const crashImage = document.getElementById("crash-image-after");
-            crashImage.onload = this.calcComponentPosition;
+            console.log("crash after mounted.");
+
+            this.crashImage = document.getElementById("crash-image-after");
+            this.shoutWord = document.getElementById("shout-word");
+            this.buildingInitial = document.getElementById("crashed-building-initial");
+
+            this.crashImage.onload = () => this.calcComponentPosition();
             window.addEventListener("resize", this.calcComponentPosition);
         });
 
@@ -114,18 +130,15 @@
         });
 
         this.calcComponentPosition = function () {
-            const crashImage = document.getElementById("crash-image-after");
-            const {clientWidth, clientHeight} = crashImage;
+            const {clientWidth, clientHeight} = this.crashImage;
 
-            const shoutWord = document.getElementById("shout-word");
-            shoutWord.style.top = clientHeight * 0.1;
-            shoutWord.style.left = clientWidth * 0.87;
-            shoutWord.style.fontSize = clientWidth * 0.04;
+            this.shoutWord.style.top = clientHeight * 0.1;
+            this.shoutWord.style.left = clientWidth * 0.87;
+            this.shoutWord.style.fontSize = clientWidth * 0.04;
 
-            const buildingInitial = document.getElementById("crashed-building-initial");
-            buildingInitial.style.top = clientHeight * 0.355;
-            buildingInitial.style.left = clientWidth * 0.225;
-            buildingInitial.style.fontSize = clientWidth * 0.05;
+            this.buildingInitial.style.top = clientHeight * 0.355;
+            this.buildingInitial.style.left = clientWidth * 0.225;
+            this.buildingInitial.style.fontSize = clientWidth * 0.05;
         }
     </script>
     <style>
