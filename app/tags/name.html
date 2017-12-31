@@ -1,14 +1,25 @@
 <pop-name>
-    <img id="name-image" src="images/name.png"/>
-    <input id="signboard-text" type="text" name="target" value="{ targetName }" oninput="{ onNameInput }">
-    <button id="submit-button" onclick="{ onSubmitName }">決定</button>
-    <question-svg id="question-icon" onclick={showHelp}></question-svg>
+    <img id="name-image"
+         src="images/name.png"/>
+    <input id="signboard-text"
+           type="text"
+           name="target"
+           value="{ targetName }"
+           oninput="{ onNameInput }">
+
+    <button id="submit-button"
+            class={inactive-button: !isButtonActive()}
+            onclick="{ onSubmitName }">決定
+    </button>
+    <question-svg id="question-icon"
+                  onclick={showHelp}></question-svg>
 
     <script>
         this.targetName = get()["boardName"];
         this.nameImage = null;
         this.signboardText = null;
         this.submitButton = null;
+        this.questionIcon = null;
 
         this.on('mount', function () {
             console.log("pop name mounted.");
@@ -16,6 +27,7 @@
             this.nameImage = document.getElementById("name-image");
             this.signboardText = document.getElementById("signboard-text");
             this.submitButton = document.getElementById("submit-button");
+            this.questionIcon = document.getElementById("question-icon");
 
             this.nameImage.onload = () => this.calcComponentPosition();
             window.addEventListener("resize", this.calcComponentPosition);
@@ -31,31 +43,43 @@
             this.targetName = e.target.value;
         };
 
-        this.onSubmitName = function (e) {
+        this.onSubmitName = (e) => {
             save("boardName", this.targetName);
-            route("crash");
+
+            if(this.isButtonActive()){
+                route("crash");
+            }else{
+                this.signboardText.focus();
+            }
         };
 
         this.showHelp = function () {
             swal({
-                title: "Good job!",
                 text: "You clicked the button!",
-                icon: "success",
             });
         };
 
-        this.calcComponentPosition = function () {
+        this.calcComponentPosition = () => {
             const {clientWidth, clientHeight} = this.nameImage;
 
-            this.signboardText.style.top = -1 * clientHeight * 0.33;
+            this.signboardText.style.top = clientHeight * 0.66;
             this.signboardText.style.left = clientWidth * 0.1;
             this.signboardText.style.height = clientHeight * 0.2;
             this.signboardText.style.width = clientWidth * 0.5;
             this.signboardText.style.fontSize = clientWidth * 0.07;
 
-            this.submitButton.style.top = -1 * clientHeight * 0.25;
-            this.submitButton.style.left = clientWidth * 0.27;
+            this.submitButton.style.top = clientHeight * 0.8;
+            this.submitButton.style.left = clientWidth * 0.77;
             this.submitButton.style.fontSize = clientWidth * 0.04;
+
+            this.questionIcon.style.top = clientHeight * 0.05;
+            this.questionIcon.style.right = clientWidth * 0.05;
+            this.questionIcon.style.height = clientWidth * 0.08;
+            this.questionIcon.style.width = clientWidth * 0.08;
+        }
+
+        this.isButtonActive = () => {
+            return this.targetName.length > 0;
         }
 
     </script>
@@ -74,22 +98,31 @@
         }
 
         #signboard-text {
-            position: relative;
+            position: absolute;
             text-align: center;
             border: none;
             background-color: rgba(255, 255, 255, 0);
             transform: rotate(-2deg);
         }
 
+        #question-icon {
+            position: absolute;
+        }
+
         #submit-button {
             display: inline-block;
-            position: relative;
+            position: absolute;
             padding: 0.5em 1em;
             text-decoration: none;
-            background: #668ad8;
             color: #FFF;
+            background: #668ad8;
             border-bottom: solid 4px #627295;
             border-radius: 3px;
         }
+
+        .inactive-button {
+            background: #c2c2c2 !important;
+        }
+
     </style>
 </pop-name>
