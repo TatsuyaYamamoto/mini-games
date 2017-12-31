@@ -1,14 +1,10 @@
 <pop-crash>
     <pop-crash-before if={ isReady }
-                      onclick={crash}
+                      on-click-image={crash}
                       building-initial={buildingInitial}></pop-crash-before>
     <pop-crash-after if={ !isReady }
                      shout-word={shoutWord}
                      building-initial={buildingInitial}></pop-crash-after>
-
-    <back-svg id="back-icon" onclick={goNameView}></back-svg>
-    <question-svg id="question-icon" onclick={showHelp}></question-svg>
-
 
     <script>
         this.shoutWord = get()["boardName"] + "ゥァアーッ";
@@ -25,18 +21,6 @@
             setTimeout(() => this.update({isReady: true}), 1000);
         };
 
-        this.goNameView = function () {
-            route("/");
-        };
-
-        this.showHelp = function () {
-            swal({
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success",
-            });
-        };
-
     </script>
 
     <style>
@@ -51,18 +35,24 @@
 
 
 <pop-crash-before>
-    <img id="crash-image" src="images/crash_before.png"/>
+    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onClickImage }" />
     <div id="building-initial"> {opts.buildingInitial}</div>
+    <back-svg id="back-icon" onclick={goNameView}></back-svg>
+    <question-svg id="question-icon" onclick={showHelp}></question-svg>
 
     <script>
         this.crashImage = null;
         this.buildingInitial = null;
+        this.questionIcon = null;
+        this.backIcon = null;
 
         this.on('mount', () => {
             console.log("crash before mounted");
 
             this.crashImage = document.getElementById("crash-image");
             this.buildingInitial = document.getElementById("building-initial");
+            this.questionIcon = document.getElementById("question-icon");
+            this.backIcon = document.getElementById("back-icon");
 
             this.crashImage.onload = () => this.calcComponentPosition();
             window.addEventListener("resize", this.calcComponentPosition);
@@ -72,12 +62,33 @@
             window.removeEventListener("resize", this.calcComponentPosition);
         });
 
+        this.goNameView = function () {
+            route("/");
+        };
+
+        this.showHelp = function () {
+            swal({
+                title: "Good job!",
+                text: "You clicked the button!",
+            });
+        };
+
         this.calcComponentPosition = function (e) {
             const {clientWidth, clientHeight} = this.crashImage;
 
             this.buildingInitial.style.top = clientHeight * 0.45;
             this.buildingInitial.style.left = clientWidth * 0.26;
             this.buildingInitial.style.fontSize = clientWidth * 0.05;
+
+            this.backIcon.style.top = clientHeight * 0.05;
+            this.backIcon.style.left = clientWidth * 0.05;
+            this.backIcon.style.height = clientWidth * 0.08;
+            this.backIcon.style.width = clientWidth * 0.08;
+
+            this.questionIcon.style.top = clientHeight * 0.05;
+            this.questionIcon.style.right = clientWidth * 0.05;
+            this.questionIcon.style.height = clientWidth * 0.08;
+            this.questionIcon.style.width = clientWidth * 0.08;
         }
     </script>
 
@@ -90,6 +101,14 @@
         #building-initial {
             position: absolute;
             transform: rotate(15deg);
+        }
+
+        #question-icon {
+            position: absolute;
+        }
+
+        #back-icon {
+            position: absolute;
         }
     </style>
 </pop-crash-before>
