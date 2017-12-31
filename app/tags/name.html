@@ -10,12 +10,8 @@
             console.log("pop name mounted.");
 
             const nameImage = document.getElementById("name-image");
-            nameImage.onload = () => {
-                this.calcComponentPosition();
-            };
-            window.addEventListener("resize", () => {
-                this.calcComponentPosition();
-            });
+            nameImage.onload = this.calcComponentPosition;
+            window.addEventListener("resize", this.calcComponentPosition);
         });
 
         this.on('before-unmount', function () {

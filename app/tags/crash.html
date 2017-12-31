@@ -1,23 +1,34 @@
 <pop-crash>
-    <img src="http://image.itmedia.co.jp/nl/articles/1609/02/kontake_160902takesyobo03.jpg"/>
+    <pop-crash-before if={ isReady }
+                      building-initial={ buildingInitial }></pop-crash-before>
+    <pop-crash-after if={ !isReady }
+                     shout-word={ shoutWord }
+                     building-initial={ buildingInitial }></pop-crash-after>
 
-    <div onclick="{ showMenu }">
-        <menu-svg/>
-    </div>
+    <menu-svg id="menu-icon" onclick={showMenu}></menu-svg>
+
 
     <script>
+        this.shoutWord = get()["boardName"] + "ゥァアーッ";
+        this.buildingInitial = get()["boardName"].slice(0, 1);
+        this.isReady = true;
+
         this.on('mount', () => {
             console.log("pop name mounted.");
 
-            window.addEventListener("click", this.crash)
+            window.addEventListener("click", this.crash);
         });
 
         this.on('before-unmount', () => {
             window.removeEventListener("click", this.crash)
         });
 
-        this.crash = function () {
-            console.log("crash");
+        this.crash = () => {
+            this.update({isReady: false});
+
+            setTimeout(() => {
+                this.update({isReady: true});
+            }, 1000);
         };
 
         this.showMenu = function () {
@@ -29,8 +40,111 @@
         };
 
     </script>
+
+    <style>
+        :scope {
+            display: block;
+            background-color: rgba(0, 0, 0, 0.05);
+            width: 100%;
+            height: 100%;
+        }
+        #menu-icon {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+    </style>
 </pop-crash>
 
+
+<pop-crash-before>
+    <img id="crash-image" src="images/crash_before.png"/>
+    <div id="building-initial"> {opts.buildingInitial}</div>
+
+    <script>
+        this.on('mount', function () {
+            const crashImage = document.getElementById("crash-image");
+            crashImage.onload = this.calcComponentPosition;
+            window.addEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.on('before-unmount', function () {
+            window.removeEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.calcComponentPosition = function () {
+            const crashImage = document.getElementById("crash-image");
+            const {clientWidth, clientHeight} = crashImage;
+
+            const buildingInitial = document.getElementById("building-initial");
+            buildingInitial.style.top = clientHeight * 0.45;
+            buildingInitial.style.left = clientWidth * 0.26;
+            buildingInitial.style.fontSize = clientWidth * 0.05;
+        }
+    </script>
+
+    <style>
+        #crash-image {
+            width: 100%;
+            height: auto;
+        }
+
+        #building-initial {
+            position: absolute;
+            transform: rotate(15deg);
+        }
+    </style>
+</pop-crash-before>
+
+
+<pop-crash-after>
+    <img id="crash-image-after" src="images/crash_after.png"/>
+    <div id="shout-word"> {opts.shoutWord}</div>
+    <div id="crashed-building-initial"> {opts.buildingInitial}</div>
+
+    <script>
+        this.on('mount', function () {
+            const crashImage = document.getElementById("crash-image-after");
+            crashImage.onload = this.calcComponentPosition;
+            window.addEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.on('before-unmount', function () {
+            window.removeEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.calcComponentPosition = function () {
+            const crashImage = document.getElementById("crash-image-after");
+            const {clientWidth, clientHeight} = crashImage;
+
+            const shoutWord = document.getElementById("shout-word");
+            shoutWord.style.top = clientHeight * 0.1;
+            shoutWord.style.left = clientWidth * 0.87;
+            shoutWord.style.fontSize = clientWidth * 0.04;
+
+            const buildingInitial = document.getElementById("crashed-building-initial");
+            buildingInitial.style.top = clientHeight * 0.355;
+            buildingInitial.style.left = clientWidth * 0.225;
+            buildingInitial.style.fontSize = clientWidth * 0.05;
+        }
+    </script>
+    <style>
+        #crash-image-after {
+            width: 100%;
+            height: auto;
+        }
+
+        #shout-word {
+            position: absolute;
+            writing-mode: vertical-rl;
+        }
+
+        #crashed-building-initial {
+            position: absolute;
+            transform: rotate(-3deg);
+        }
+    </style>
+</pop-crash-after>
 
 <!--http://icooon-mono.com/12607-%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC%E3%81%AE%E3%83%95%E3%83%AA%E3%83%BC%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B312/-->
 <menu-svg>
