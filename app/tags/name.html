@@ -46,16 +46,16 @@
         this.onSubmitName = (e) => {
             save("boardName", this.targetName);
 
-            if(this.isButtonActive()){
+            if (this.isButtonActive()) {
                 route("crash");
-            }else{
+            } else {
                 this.signboardText.focus();
             }
         };
 
         this.showHelp = function () {
-            swal({
-                text: "You clicked the button!",
+            swal("名前を書く").then(() => {
+                this.signboardText.focus();
             });
         };
 
