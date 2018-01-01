@@ -75,8 +75,9 @@
         this.calcComponentPosition = (e) => {
             const {clientWidth, clientHeight} = this.crashImage;
 
-            this.buildingInitial.style.top = clientHeight * 0.45;
-            this.buildingInitial.style.left = clientWidth * 0.26;
+            this.buildingInitial.style.top = clientHeight * 0.44;
+            this.buildingInitial.style.left = clientWidth * 0.235;
+            this.buildingInitial.style.width = clientWidth * 0.1;
             this.buildingInitial.style.fontSize = clientWidth * 0.05;
 
             this.backIcon.style.top = clientHeight * 0.05;
@@ -99,7 +100,8 @@
 
         #building-initial {
             position: absolute;
-            transform: rotate(15deg);
+            text-align: center;
+            transform: rotate(15deg) scale(0.9, 1);;
         }
 
         #question-icon {
@@ -146,7 +148,8 @@
             this.shoutWord.style.fontSize = clientWidth * 0.04;
 
             this.buildingInitial.style.top = clientHeight * 0.355;
-            this.buildingInitial.style.left = clientWidth * 0.225;
+            this.buildingInitial.style.left = clientWidth * 0.2;
+            this.buildingInitial.style.width = clientWidth * 0.1;
             this.buildingInitial.style.fontSize = clientWidth * 0.05;
         }
     </script>
@@ -163,7 +166,8 @@
 
         #crashed-building-initial {
             position: absolute;
-            transform: rotate(-3deg);
+            text-align: center;
+            transform: rotate(-10deg) scale(0.8, 1);
         }
     </style>
 </pop-crash-after>
