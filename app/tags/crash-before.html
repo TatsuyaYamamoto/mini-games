@@ -3,11 +3,13 @@
     <div id="building-initial"> {opts.buildingInitial}</div>
     <back-svg id="back-icon" onclick={goNameView}></back-svg>
     <question-svg id="question-icon" onclick={showHelp}></question-svg>
+    <twitter-svg id="twitter-icon" onclick={showTweetView}></twitter-svg>
 
     <script>
         this.buildingInitial = null;
         this.questionIcon = null;
         this.backIcon = null;
+        this.twitterIcon = null;
 
         this.on('mount', () => {
             console.log("crash before mounted");
@@ -15,8 +17,7 @@
             this.buildingInitial = document.getElementById("building-initial");
             this.questionIcon = document.getElementById("question-icon");
             this.backIcon = document.getElementById("back-icon");
-
-
+            this.twitterIcon = document.getElementById("twitter-icon");
 
             this.calcComponentPosition()
         });
@@ -28,6 +29,10 @@
         this.goNameView = () => route("/");
 
         this.showHelp = () => swal("画像をタップか、端末を振る");
+
+        this.showTweetView = () => {
+            goTweetPage(this.opts.shoutWord);
+        };
 
         this.calcComponentPosition = () => {
             const {width, height} = this.opts;
@@ -46,6 +51,11 @@
             this.questionIcon.style.right = width * 0.05;
             this.questionIcon.style.height = width * 0.08;
             this.questionIcon.style.width = width * 0.08;
+
+            this.twitterIcon.style.top = height * 0.17;
+            this.twitterIcon.style.right = width * 0.05;
+            this.twitterIcon.style.height = width * 0.08;
+            this.twitterIcon.style.width = width * 0.08;
         }
     </script>
 
@@ -66,6 +76,10 @@
         }
 
         #back-icon {
+            position: absolute;
+        }
+
+        #twitter-icon {
             position: absolute;
         }
     </style>

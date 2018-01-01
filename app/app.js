@@ -1,3 +1,6 @@
+var TWEET_PAGE_URL = "https://twitter.com/intent/tweet";
+var GAME_PAGE_URL = "";
+
 var POP_TEAM_CRASH_STORAGE_KEY = "POP_TEAM_CRASH_STORAGE";
 var POP_TEAM_CRASH_STORAGE = JSON.stringify({
     boardName: "TS房"
@@ -23,4 +26,8 @@ function save(key, value) {
     items[key] = value;
 
     localStorage.setItem(POP_TEAM_CRASH_STORAGE_KEY, JSON.stringify(items));
+}
+
+function goTweetPage(text) {
+    location.href = `${TWEET_PAGE_URL}?hashtags=ポプテクラッシュ+%23そこんところ工房&text=${text}&url=${GAME_PAGE_URL}`;
 }
