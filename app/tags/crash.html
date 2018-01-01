@@ -1,11 +1,11 @@
 <pop-crash>
-    <pop-crash-before if={isReady}
+    <pop-crash-before show={isReady}
                       width={width}
                       height={height}
                       on-crash-requested={crash}
                       shout-word={shoutWord}
                       building-initial={buildingInitial}></pop-crash-before>
-    <pop-crash-after if={ !isReady }
+    <pop-crash-after show={ !isReady }
                      width={width}
                      height={height}
                      shout-word={shoutWord}
@@ -37,6 +37,8 @@
 
             this.update({isReady: false});
             setTimeout(() => this.update({isReady: true}), 1000);
+
+            navigator.vibrate([100, 20, 300]);
         };
 
         this.updateSize = () => this.update({
