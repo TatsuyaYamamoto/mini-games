@@ -17,17 +17,28 @@
         this.isReady = true;
         this.width = null;
         this.height = null;
+        this.shakeEvent = null;
 
         this.on('mount', () => {
             console.log("pop crash mounted.");
 
+            this.shakeEvent = new Shake({
+                threshold: 10,
+                timeout: 1000
+            });
+            this.shakeEvent.start();
+
             window.addEventListener("resize", this.updateSize);
+            window.addEventListener('shake', this.crash);
 
             this.updateSize();
         });
 
         this.on('before-unmount', function () {
             window.removeEventListener("resize", this.updateSize);
+            window.removeEventListener('shake', this.crash);
+            this.shakeEvent.stop();
+            this.shakeEvent = null;
         });
 
         this.crash = () => {
@@ -38,13 +49,17 @@
             this.update({isReady: false});
             setTimeout(() => this.update({isReady: true}), 1000);
 
-            navigator.vibrate([100, 20, 300]);
+            this.vibrate();
         };
 
         this.updateSize = () => this.update({
             width: window.innerWidth,
             height: window.innerWidth * (284 / 420),
         });
+
+        this.vibrate = () => {
+            navigator.vibrate([100, 20, 300])
+        };
 
     </script>
 
