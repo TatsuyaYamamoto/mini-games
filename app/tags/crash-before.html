@@ -1,11 +1,10 @@
 <pop-crash-before>
-    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onClickImage }"/>
+    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onCrashRequested }"/>
     <div id="building-initial"> {opts.buildingInitial}</div>
     <back-svg id="back-icon" onclick={goNameView}></back-svg>
     <question-svg id="question-icon" onclick={showHelp}></question-svg>
 
     <script>
-        this.crashImage = null;
         this.buildingInitial = null;
         this.questionIcon = null;
         this.backIcon = null;
@@ -13,46 +12,40 @@
         this.on('mount', () => {
             console.log("crash before mounted");
 
-            this.crashImage = document.getElementById("crash-image");
             this.buildingInitial = document.getElementById("building-initial");
             this.questionIcon = document.getElementById("question-icon");
             this.backIcon = document.getElementById("back-icon");
 
-            this.crashImage.onload = () => this.calcComponentPosition();
-            window.addEventListener("resize", this.calcComponentPosition);
+
+
+            this.calcComponentPosition()
         });
 
-        this.on('before-unmount', function () {
-            window.removeEventListener("resize", this.calcComponentPosition);
+        this.on('update', () => {
+            this.calcComponentPosition()
         });
 
-        this.goNameView = function () {
-            route("/");
-        };
+        this.goNameView = () => route("/");
 
-        this.showHelp = function () {
-            this.showHelp = function () {
-                swal("画像をタップか、端末を振る");
-            };
-        };
+        this.showHelp = () => swal("画像をタップか、端末を振る");
 
-        this.calcComponentPosition = (e) => {
-            const {clientWidth, clientHeight} = this.crashImage;
+        this.calcComponentPosition = () => {
+            const {width, height} = this.opts;
 
-            this.buildingInitial.style.top = clientHeight * 0.44;
-            this.buildingInitial.style.left = clientWidth * 0.235;
-            this.buildingInitial.style.width = clientWidth * 0.1;
-            this.buildingInitial.style.fontSize = clientWidth * 0.05;
+            this.buildingInitial.style.top = height * 0.44;
+            this.buildingInitial.style.left = width * 0.235;
+            this.buildingInitial.style.width = width * 0.1;
+            this.buildingInitial.style.fontSize = width * 0.05;
 
-            this.backIcon.style.top = clientHeight * 0.05;
-            this.backIcon.style.left = clientWidth * 0.05;
-            this.backIcon.style.height = clientWidth * 0.08;
-            this.backIcon.style.width = clientWidth * 0.08;
+            this.backIcon.style.top = height * 0.05;
+            this.backIcon.style.left = width * 0.05;
+            this.backIcon.style.height = width * 0.08;
+            this.backIcon.style.width = width * 0.08;
 
-            this.questionIcon.style.top = clientHeight * 0.05;
-            this.questionIcon.style.right = clientWidth * 0.05;
-            this.questionIcon.style.height = clientWidth * 0.08;
-            this.questionIcon.style.width = clientWidth * 0.08;
+            this.questionIcon.style.top = height * 0.05;
+            this.questionIcon.style.right = width * 0.05;
+            this.questionIcon.style.height = width * 0.08;
+            this.questionIcon.style.width = width * 0.08;
         }
     </script>
 

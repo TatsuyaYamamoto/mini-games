@@ -1,25 +1,47 @@
 <pop-crash>
-    <pop-crash-before if={ isReady }
-                      on-click-image={crash}
+    <pop-crash-before if={isReady}
+                      width={width}
+                      height={height}
+                      on-crash-requested={crash}
                       building-initial={buildingInitial}></pop-crash-before>
     <pop-crash-after if={ !isReady }
+                     width={width}
+                     height={height}
                      shout-word={shoutWord}
-                     building-initial={buildingInitial}></pop-crash-after>
+                     building-initial={buildingInitial}/></pop-crash-after>
 
     <script>
         this.shoutWord = get()["boardName"] + "ゥァアーッ";
         this.buildingInitial = get()["boardName"].slice(0, 1);
         this.isReady = true;
+        this.width = null;
+        this.height = null;
 
         this.on('mount', () => {
             console.log("pop crash mounted.");
+
+            window.addEventListener("resize", this.updateSize);
+
+            this.updateSize();
+        });
+
+        this.on('before-unmount', function () {
+            window.removeEventListener("resize", this.updateSize);
         });
 
         this.crash = () => {
-            this.update({isReady: false});
+            if (!this.isReady) {
+                return;
+            }
 
+            this.update({isReady: false});
             setTimeout(() => this.update({isReady: true}), 1000);
         };
+
+        this.updateSize = () => this.update({
+            width: window.innerWidth,
+            height: window.innerWidth * (284 / 420),
+        });
 
     </script>
 
