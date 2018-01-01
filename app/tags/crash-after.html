@@ -1,0 +1,56 @@
+<pop-crash-after>
+    <img id="crash-image-after" src="images/crash_after.png"/>
+    <div id="shout-word"> {opts.shoutWord}</div>
+    <div id="crashed-building-initial"> {opts.buildingInitial}</div>
+
+    <script>
+        this.crashImage = null;
+        this.shoutWord = null;
+        this.buildingInitial = null;
+
+        this.on('mount', function () {
+            console.log("crash after mounted.");
+
+            this.crashImage = document.getElementById("crash-image-after");
+            this.shoutWord = document.getElementById("shout-word");
+            this.buildingInitial = document.getElementById("crashed-building-initial");
+
+            this.crashImage.onload = () => this.calcComponentPosition();
+            window.addEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.on('before-unmount', function () {
+            window.removeEventListener("resize", this.calcComponentPosition);
+        });
+
+        this.calcComponentPosition = function () {
+            const {clientWidth, clientHeight} = this.crashImage;
+
+            this.shoutWord.style.top = clientHeight * 0.1;
+            this.shoutWord.style.left = clientWidth * 0.87;
+            this.shoutWord.style.fontSize = clientWidth * 0.04;
+
+            this.buildingInitial.style.top = clientHeight * 0.355;
+            this.buildingInitial.style.left = clientWidth * 0.2;
+            this.buildingInitial.style.width = clientWidth * 0.1;
+            this.buildingInitial.style.fontSize = clientWidth * 0.05;
+        }
+    </script>
+    <style>
+        #crash-image-after {
+            width: 100%;
+            height: auto;
+        }
+
+        #shout-word {
+            position: absolute;
+            writing-mode: vertical-rl;
+        }
+
+        #crashed-building-initial {
+            position: absolute;
+            text-align: center;
+            transform: rotate(-10deg) scale(0.8, 1);
+        }
+    </style>
+</pop-crash-after>
