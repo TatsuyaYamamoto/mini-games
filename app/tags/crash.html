@@ -35,7 +35,7 @@
 
 
 <pop-crash-before>
-    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onClickImage }" />
+    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onClickImage }"/>
     <div id="building-initial"> {opts.buildingInitial}</div>
     <back-svg id="back-icon" onclick={goNameView}></back-svg>
     <question-svg id="question-icon" onclick={showHelp}></question-svg>
@@ -72,7 +72,7 @@
             };
         };
 
-        this.calcComponentPosition = function (e) {
+        this.calcComponentPosition = (e) => {
             const {clientWidth, clientHeight} = this.crashImage;
 
             this.buildingInitial.style.top = clientHeight * 0.45;
