@@ -3,50 +3,34 @@
     <div id="shout-word"> {opts.shoutWord}</div>
     <div id="crashed-building-initial"> {opts.buildingInitial}</div>
 
-    <script>
-        this.shoutWord = null;
-        this.buildingInitial = null;
-
-        this.on('mount', function () {
-            console.log("crash after mounted.");
-
-            this.shoutWord = document.getElementById("shout-word");
-            this.buildingInitial = document.getElementById("crashed-building-initial");
-
-            this.calcComponentPosition();
-        });
-
-        this.on('update', () => {
-            this.calcComponentPosition()
-        });
-
-        this.calcComponentPosition = function () {
-            const {width, height} = this.opts;
-
-            this.shoutWord.style.top = height * 0.1;
-            this.shoutWord.style.left = width * 0.87;
-            this.shoutWord.style.fontSize = width * 0.04;
-
-            this.buildingInitial.style.top = height * 0.355;
-            this.buildingInitial.style.left = width * 0.2;
-            this.buildingInitial.style.width = width * 0.1;
-            this.buildingInitial.style.fontSize = width * 0.05;
-        }
-    </script>
     <style>
         #crash-image-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+
             width: 100%;
             height: auto;
         }
 
         #shout-word {
             position: absolute;
+            top: 10%;
+            left: 87%;
+
+            font-size: 4vw;
             writing-mode: vertical-rl;
         }
 
         #crashed-building-initial {
             position: absolute;
+            top: 35.5%;
+            left: 20%;
+
+            width: 10%;
+
             text-align: center;
+            font-size: 5vw;
             transform: rotate(-10deg) scale(0.8, 1);
         }
     </style>

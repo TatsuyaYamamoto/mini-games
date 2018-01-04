@@ -1,9 +1,48 @@
 <pop-app>
     <router>
-        <route path="name"><pop-name/></route>
-        <route path="crash"><pop-crash/></route>
+        <route path="name">
+            <pop-name/>
+        </route>
+
+        <route path="crash">
+            <pop-crash/>
+        </route>
 
         <!--redirect-->
-        <route path=""><pop-name/></route>
+        <route path="">
+            <pop-name/>
+        </route>
     </router>
+
+    <script>
+        this.on("mount", () => {
+            window.addEventListener("orientationchange", this.handleRotateAlert);
+
+            this.handleRotateAlert();
+        });
+
+        this.isLandscape = () => {
+            const angle = screen.orientation.angle || window.orientation || 0;
+            return Math.abs(angle) % 180 === 90;
+        };
+
+        this.handleRotateAlert = () => {
+            if (this.isLandscape()) {
+                swal({text: "横画面に対応していないクソアプリ"});
+            } else {
+                swal.close();
+            }
+        };
+    </script>
+
+    <style>
+        :scope {
+            position: relative;
+            display: block;
+            background-color: rgba(0, 0, 0, 0.05);
+            width: 100%;
+            /* Aspect ratio of crash image. */
+            padding-top: 68%;
+        }
+    </style>
 </pop-app>

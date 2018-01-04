@@ -3,7 +3,6 @@
          src="images/name.png"/>
     <input id="signboard-text"
            type="text"
-           name="target"
            value="{ targetName }"
            oninput="{ onNameInput }">
 
@@ -16,27 +15,12 @@
 
     <script>
         this.targetName = get()["boardName"];
-        this.nameImage = null;
         this.signboardText = null;
-        this.submitButton = null;
-        this.questionIcon = null;
 
         this.on('mount', function () {
             console.log("pop name mounted.");
 
-            this.nameImage = document.getElementById("name-image");
             this.signboardText = document.getElementById("signboard-text");
-            this.submitButton = document.getElementById("submit-button");
-            this.questionIcon = document.getElementById("question-icon");
-
-            this.nameImage.onload = () => this.calcComponentPosition();
-            window.addEventListener("resize", this.calcComponentPosition);
-        });
-
-        this.on('before-unmount', function () {
-            console.log("pop name unmounting.");
-
-            window.removeEventListener("resize", this.calcComponentPosition);
         });
 
         this.onNameInput = function (e) {
@@ -54,29 +38,9 @@
         };
 
         this.showHelp = function () {
-            swal("名前を書く").then(() => {
-                this.signboardText.focus();
-            });
+            swal({text: "名前を書く"})
+                .then(() => this.signboardText.focus());
         };
-
-        this.calcComponentPosition = () => {
-            const {clientWidth, clientHeight} = this.nameImage;
-
-            this.signboardText.style.top = clientHeight * 0.66;
-            this.signboardText.style.left = clientWidth * 0.1;
-            this.signboardText.style.height = clientHeight * 0.2;
-            this.signboardText.style.width = clientWidth * 0.5;
-            this.signboardText.style.fontSize = clientWidth * 0.07;
-
-            this.submitButton.style.top = clientHeight * 0.8;
-            this.submitButton.style.left = clientWidth * 0.77;
-            this.submitButton.style.fontSize = clientWidth * 0.04;
-
-            this.questionIcon.style.top = clientHeight * 0.05;
-            this.questionIcon.style.right = clientWidth * 0.05;
-            this.questionIcon.style.height = clientWidth * 0.08;
-            this.questionIcon.style.width = clientWidth * 0.08;
-        }
 
         this.isButtonActive = () => {
             return this.targetName.length > 0;
@@ -85,34 +49,47 @@
     </script>
 
     <style>
-        :scope {
-            display: block;
-            background-color: rgba(0, 0, 0, 0.05);
-            width: 100%;
-            height: 100%;
-        }
-
         #name-image {
             width: 100%;
             height: auto;
+
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         #signboard-text {
+            width: 50%;
+            height: 20%;
+
             position: absolute;
+            top: 66%;
+            left: 10%;
+
             text-align: center;
+            font-size: 7vw;
             border: none;
             background-color: rgba(255, 255, 255, 0);
             transform: rotate(-2deg);
         }
 
         #question-icon {
+            height: 8%;
+            width: 8%;
+
             position: absolute;
+            top: 5%;
+            right: 5%;
         }
 
         #submit-button {
-            display: inline-block;
             position: absolute;
+            top: 80%;
+            left: 77%;
+
+            display: inline-block;
             padding: 0.5em 1em;
+            font-size: 4vw;
             text-decoration: none;
             color: #FFF;
             background: #668ad8;
