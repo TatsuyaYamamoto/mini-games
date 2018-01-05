@@ -1,5 +1,5 @@
 <pop-crash-before>
-    <img id="crash-image" src="images/crash_before.png" onclick="{ opts.onCrashRequested }"/>
+    <img id="crash-image" src="images/crash_before.png" onclick="{ crash }"/>
 
     <div id="building-initial"> {opts.buildingInitial}</div>
 
@@ -8,6 +8,8 @@
     <twitter-svg id="twitter-icon" onclick={showTweetView}></twitter-svg>
 
     <script>
+        this.crash = () => this.trigger("crash");
+
         this.goNameView = () => route("/");
 
         this.showHelp = () => swal({text: "画像をタップか、端末を振る"});

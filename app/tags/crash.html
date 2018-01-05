@@ -1,6 +1,5 @@
 <pop-crash>
     <pop-crash-before show={isReady}
-                      on-crash-requested={crash}
                       shout-word={shoutWord}
                       building-initial={buildingInitial}></pop-crash-before>
     <pop-crash-after show={ !isReady }
@@ -22,7 +21,9 @@
             console.log("pop crash mounted.");
 
             this.shakeEvent.start();
+
             window.addEventListener('shake', this.crash);
+            this.tags["pop-crash-before"].on("crash", this.crash)
         });
 
         this.on('before-unmount', function () {
