@@ -33,6 +33,47 @@
                 swal.close();
             }
         };
+
+        (function () {
+            var TWEET_PAGE_URL = "https://twitter.com/intent/tweet";
+            var GAME_PAGE_URL = "";
+
+            riot.mixin("links", {
+                goTweetPage: function (text) {
+                    location.href = `${TWEET_PAGE_URL}?hashtags=ポプテクラッシュ+%23そこんところ工房&text=${text}&url=${GAME_PAGE_URL}`;
+                }
+            });
+        })();
+
+        (function () {
+            var LOCAL_STORAGE_KEY = "POP_TEAM_CRASH_STORAGE";
+            var INITIAL_VALUES = {
+                "sign_board_character": "竹◯某"
+            };
+
+            riot.mixin("storage", {
+                init: function () {
+                    if (!this._getItems()) {
+                        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(INITIAL_VALUES));
+                    }
+                },
+                getSignBoardCharacter: function () {
+                    return this._getItems()["sign_board_character"];
+                },
+                setSignBoardCharacter: function (char) {
+                    const items = this._getItems();
+                    items["sign_board_character"] = char;
+
+                    this._setItems(items);
+                },
+                _getItems: function () {
+                    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+                },
+                _setItems :function (items) {
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
+                }
+            })
+        })();
     </script>
 
     <style>

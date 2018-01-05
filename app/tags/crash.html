@@ -8,8 +8,10 @@
                      building-initial={buildingInitial}></pop-crash-after>
 
     <script>
-        this.shoutWord = get()["boardName"] + "ゥァアーッ";
-        this.buildingInitial = get()["boardName"].slice(0, 1);
+        this.mixin("storage");
+
+        this.shoutWord = this.getSignBoardCharacter() + "ゥァアーッ";
+        this.buildingInitial = this.shoutWord.slice(0, 1);
         this.isReady = true;
         this.shakeEvent = new Shake({
             threshold: 10,
@@ -26,7 +28,6 @@
         this.on('before-unmount', function () {
             window.removeEventListener('shake', this.crash);
             this.shakeEvent.stop();
-            this.shakeEvent = null;
         });
 
         this.crash = () => {

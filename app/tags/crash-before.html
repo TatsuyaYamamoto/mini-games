@@ -12,8 +12,9 @@
 
         this.showHelp = () => swal({text: "画像をタップか、端末を振る"});
 
-        this.showTweetView = () => goTweetPage(this.opts.shoutWord);
+        this.showTweetView = () => this.goTweetPage(this.opts.shoutWord);
 
+        this.mixin("links");
     </script>
 
     <style>

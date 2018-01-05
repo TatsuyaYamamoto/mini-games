@@ -14,7 +14,9 @@
                   onclick={showHelp}></question-svg>
 
     <script>
-        this.targetName = get()["boardName"];
+        this.mixin("storage");
+
+        this.targetName = this.getSignBoardCharacter();
         this.signboardText = null;
 
         this.on('mount', function () {
@@ -28,7 +30,7 @@
         };
 
         this.onSubmitName = (e) => {
-            save("boardName", this.targetName);
+            this.setSignBoardCharacter(this.targetName);
 
             if (this.isButtonActive()) {
                 route("crash");
@@ -44,8 +46,7 @@
 
         this.isButtonActive = () => {
             return this.targetName.length > 0;
-        }
-
+        };
     </script>
 
     <style>
