@@ -69,10 +69,60 @@
                 _getItems: function () {
                     return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
                 },
-                _setItems :function (items) {
+                _setItems: function (items) {
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
                 }
             })
+        })();
+
+        (function () {
+            const config = {
+                apiKey: "AIzaSyDLLtFoOy-V9d6n72Lnt5JNiHByrnJ_4U4",
+                authDomain: "minigames-f7410.firebaseapp.com",
+                databaseURL: "https://minigames-f7410.firebaseio.com",
+                projectId: "minigames-f7410",
+                storageBucket: "",
+                messagingSenderId: "1064040260091"
+            };
+            firebase.initializeApp(config);
+
+            const auth = firebase.auth();
+            const database = firebase.database();
+            const observableFirebase = riot.observable();
+
+            database.ref("popTeamCrash/_total").on("value", function (snapshot) {
+                observableFirebase.trigger("updateTotal", snapshot.val());
+            });
+
+            auth.onAuthStateChanged(function (user) {
+                if (user) {
+                    database.ref(`popTeamCrash/${user.uid}`).on("value", function (snapshot) {
+                        observableFirebase.trigger("updateOwn", snapshot.val());
+                    });
+                }
+            });
+
+            observableFirebase.on("*", function (name, props) {
+                console.log(`on ${name}`, props);
+            });
+
+            observableFirebase.on("crash", function () {
+            });
+
+            auth.signInAnonymously();
+
+            riot.mixin("firebase", {
+                onTotalUpdated: function (listener) {
+                    observableFirebase.on("updateTotal", listener);
+                },
+                onOwnUpdated: function (listener) {
+                    observableFirebase.on("updateOwn", listener);
+                },
+                sendCrashEvent: function () {
+                    observableFirebase.trigger("crash");
+                }
+            })
+
         })();
     </script>
 
