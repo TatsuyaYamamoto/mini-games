@@ -1,0 +1,8 @@
+{
+  "name": "mini-projects",
+  "version": "0.0.1",
+  "author": "TatsuyaYamamoto",
+  "scripts": {
+    "deploy": "firebase deploy"
+  }
+}
