@@ -42,7 +42,13 @@
         };
 
         this.showHelp = function () {
-            swal({text: "名前を書く"})
+            swal({
+                html:
+                "<h3>あそびかた</h3>" +
+                "<div>名前を書く</div>" +
+                "<h3>つくったひと</h3>" +
+                "<div><a href=\"http://www.sokontokoro-factory.net\">そこんところ工房</a></div>"
+            })
                 .then(() => this.signboardText.focus());
         };
 
