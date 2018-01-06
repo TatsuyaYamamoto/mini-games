@@ -76,15 +76,14 @@
         })();
 
         (function () {
-            const config = {
-                apiKey: "AIzaSyDLLtFoOy-V9d6n72Lnt5JNiHByrnJ_4U4",
-                authDomain: "minigames-f7410.firebaseapp.com",
-                databaseURL: "https://minigames-f7410.firebaseio.com",
-                projectId: "minigames-f7410",
-                storageBucket: "",
-                messagingSenderId: "1064040260091"
-            };
-            firebase.initializeApp(config);
+            firebase.initializeApp({
+                "apiKey": "AIzaSyCifX-OuFPR0X-C8e-t4KaHdAO1Nkyx0dk",
+                "databaseURL": "https://mini-projects-9e2c3.firebaseio.com",
+                "storageBucket": "mini-projects-9e2c3.appspot.com",
+                "authDomain": "mini-projects-9e2c3.firebaseapp.com",
+                "messagingSenderId": "495662928019",
+                "projectId": "mini-projects-9e2c3"
+            });
 
             const auth = firebase.auth();
             const database = firebase.database();
