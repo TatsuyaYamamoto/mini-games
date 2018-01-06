@@ -4,7 +4,8 @@
   "description": "kusoge",
   "main": "index.js",
   "scripts": {
-    "start": "live-server app"
+    "start": "live-server app",
+    "build": "echo \"pop-tema-crash's build script does noting\""
   },
   "author": "TatsuyaYamamoto",
   "license": "MIT",
