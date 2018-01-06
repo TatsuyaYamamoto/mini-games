@@ -89,23 +89,27 @@
             const database = firebase.database();
             const observableFirebase = riot.observable();
 
-            database.ref("popTeamCrash/_total").on("value", function (snapshot) {
-                observableFirebase.trigger("updateTotal", snapshot.val());
-            });
-
             auth.onAuthStateChanged(function (user) {
                 if (user) {
-                    database.ref(`popTeamCrash/${user.uid}`).on("value", function (snapshot) {
+                    database.ref(`popTeamCrash/users/${user.uid}`).on("value", function (snapshot) {
                         observableFirebase.trigger("updateOwn", snapshot.val());
                     });
+
+                    database.ref("popTeamCrash/total").on("value", function (snapshot) {
+                        observableFirebase.trigger("updateTotal", snapshot.val());
+                    });
+
+                    observableFirebase.on("*", function (name, props) {
+                        console.log(`on ${name}`, props);
+                    });
+
+                    observableFirebase.on("crash", function () {
+                        const url = `https://us-central1-mini-projects-9e2c3.cloudfunctions.net/popTeamCrash/users/${user.uid}/crash`;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("PUT", url, true);
+                        xhr.send();
+                    });
                 }
-            });
-
-            observableFirebase.on("*", function (name, props) {
-                console.log(`on ${name}`, props);
-            });
-
-            observableFirebase.on("crash", function () {
             });
 
             auth.signInAnonymously();
