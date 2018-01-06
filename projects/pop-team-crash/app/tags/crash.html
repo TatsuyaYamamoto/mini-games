@@ -7,17 +7,12 @@
                      shout-word={shoutWord}
                      building-initial={buildingInitial}></pop-crash-after>
 
-    <pop-counter total="{totalCrashNumber}"
-                 own="{ownCrashNumber}"></pop-counter>
-
     <script>
         this.mixin("storage");
         this.mixin("firebase");
 
         this.shoutWord = this.getSignBoardCharacter() + "ゥァアーッ";
         this.buildingInitial = this.shoutWord.slice(0, 1);
-        this.totalCrashNumber = 0;
-        this.ownCrashNumber = 0;
         this.isReady = true;
         this.shakeEvent = new Shake({
             threshold: 10,
@@ -29,9 +24,6 @@
 
             this.shakeEvent.start();
             window.addEventListener('shake', this.crash);
-
-            this.onTotalUpdated((value) => this.update({totalCrashNumber: value}));
-            this.onOwnUpdated((value) => this.update({ownCrashNumber: value}));
         });
 
         this.on('before-unmount', function () {

@@ -7,6 +7,8 @@
     <question-svg id="question-icon" onclick={showHelp}></question-svg>
     <twitter-svg id="twitter-icon" onclick={showTweetView}></twitter-svg>
 
+    <pop-counter id="counter"></pop-counter>
+
     <script>
         this.goNameView = () => route("/");
 
@@ -64,6 +66,12 @@
             right: 17%;
             height: 8%;
             width: 8%;
+        }
+
+        #counter {
+            position: absolute;
+            bottom: 3%;
+            right: 2%;
         }
     </style>
 </pop-crash-before>

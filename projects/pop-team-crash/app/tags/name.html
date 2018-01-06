@@ -6,10 +6,12 @@
            value="{ targetName }"
            oninput="{ onNameInput }">
 
-    <button id="submit-button"
+    <div id="submit-button"
             class={inactive-button: !isButtonActive()}
-            onclick="{ onSubmitName }">決定
-    </button>
+            onclick="{ onSubmitName }">
+        <span class="red-character">決</span>
+        <span class="blue-character">定</span>
+    </div>
     <question-svg id="question-icon"
                   onclick={showHelp}></question-svg>
 
