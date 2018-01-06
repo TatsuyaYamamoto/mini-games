@@ -22,7 +22,7 @@
         });
 
         this.isLandscape = () => {
-            const angle = screen.orientation.angle || window.orientation || 0;
+            const angle = screen || screen.orientation || screen.orientation.angle || window.orientation || 0;
             return Math.abs(angle) % 180 === 90;
         };
 

@@ -53,7 +53,7 @@
         };
 
         this.vibrate = () => {
-            navigator.vibrate([100, 20, 300])
+            navigator || navigator.vibrate([100, 20, 300])
         };
 
     </script>
