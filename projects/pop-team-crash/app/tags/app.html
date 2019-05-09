@@ -105,7 +105,7 @@
                     });
 
                     observableFirebase.on("crash", function () {
-                        const url = `https://us-central1-mini-projects-9e2c3.cloudfunctions.net/popTeamCrash/users/${user.uid}/crash`;
+                        const url = `https://us-central1-minis-development.cloudfunctions.net/popTeamCrash/users/${user.uid}/crash`;
                         const xhr = new XMLHttpRequest();
                         xhr.open("PUT", url, true);
                         xhr.send();
