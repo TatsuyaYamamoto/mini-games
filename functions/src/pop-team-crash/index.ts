@@ -4,8 +4,8 @@ import {
     database as adminDb
 } from "firebase-admin";
 
-const {OK, INTERNAL_SERVER_ERROR} = require("http-status");
-const cors = require("cors");
+import {OK, INTERNAL_SERVER_ERROR} from "http-status";
+import * as cors from "cors";
 
 const app = express();
 app.use(cors());
@@ -20,7 +20,7 @@ app.put("/users/:uid/crash", function (req, res) {
             loadOwn(uid)
         ]))
         .then(([total, own]) => {
-            const update = {};
+            const update: any = {};
             update[`total`] = total + 1;
             update[`users/${uid}`] = own + 1;
 
@@ -39,7 +39,7 @@ function loadTotal() {
         .then(snapshot => snapshot.val());
 }
 
-function loadOwn(uid) {
+function loadOwn(uid: string) {
     return adminDb().ref(`popTeamCrash/users/${uid}`)
         .once("value")
         .then(snapshot => snapshot.val());
