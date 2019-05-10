@@ -3,14 +3,12 @@
   "version": "0.0.1",
   "author": "TatsuyaYamamoto",
   "scripts": {
-    "deploy": "npm run build && npm run copy && firebase deploy",
+    "deploy": "    npm run build && firebase deploy --project minis-development",
+    "deploy-pro": "npm run build && firebase deploy --project minis-production",
     "build": "run-p build:*",
-    "build:pop-team-crash": "npm run --prefix projects/pop-team-crash build",
-    "copy": "run-p copy:*",
-    "copy:pop-team-crash": "cpx \"projects/pop-team-crash/app/**/*\" public/pop-team-crash"
+    "build:pop-team-crash": "npm run --prefix projects/pop-team-crash build"
   },
   "devDependencies": {
-    "cpx": "^1.5.0",
     "npm-run-all": "^4.1.2"
   }
 }

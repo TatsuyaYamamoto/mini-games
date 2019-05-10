@@ -15,6 +15,30 @@
     </router>
 
     <script>
+        const firebaseConfig = location.host === "minis.sokontokoro-factory.net" ? {
+          apiKey: "AIzaSyDWsffjR_jDO9DNkdhnN3nyGGlOw3cvhps",
+          authDomain: "minis-production.firebaseapp.com",
+          databaseURL: "https://minis-production.firebaseio.com",
+          projectId: "minis-production",
+          storageBucket: "minis-production.appspot.com",
+          messagingSenderId: "676233370674",
+          appId: "1:676233370674:web:4e77156679101b56"
+        } : {
+          apiKey: 'AIzaSyCE7BpKRP8PyxswYJogsOuHo7-qFp5pbHs',
+          authDomain: 'minis-development.firebaseapp.com',
+          databaseURL: 'https://minis-development.firebaseio.com',
+          projectId: 'minis-development',
+          storageBucket: 'minis-development.appspot.com',
+          messagingSenderId: '593638189965',
+          appId: '1:593638189965:web:dc0a2f0f4b18edc6',
+        };
+
+        const firebaseFunctionDomain = location.host === "minis.sokontokoro-factory.net" ?
+          "us-central1-minis-production.cloudfunctions.net" :
+          "us-central1-minis-development.cloudfunctions.net";
+
+
+
         this.on("mount", () => {
             window.addEventListener("orientationchange", this.handleRotateAlert);
 
@@ -76,15 +100,7 @@
         })();
 
         (function () {
-            firebase.initializeApp({
-              apiKey: "AIzaSyCE7BpKRP8PyxswYJogsOuHo7-qFp5pbHs",
-              authDomain: "minis-development.firebaseapp.com",
-              databaseURL: "https://minis-development.firebaseio.com",
-              projectId: "minis-development",
-              storageBucket: "minis-development.appspot.com",
-              messagingSenderId: "593638189965",
-              appId: "1:593638189965:web:dc0a2f0f4b18edc6"
-            });
+            firebase.initializeApp(firebaseConfig);
 
             const auth = firebase.auth();
             const database = firebase.database();
@@ -105,7 +121,7 @@
                     });
 
                     observableFirebase.on("crash", function () {
-                        const url = `https://us-central1-minis-development.cloudfunctions.net/popTeamCrash/users/${user.uid}/crash`;
+                        const url = `https://${firebaseFunctionDomain}/popTeamCrash/users/${user.uid}/crash`;
                         const xhr = new XMLHttpRequest();
                         xhr.open("PUT", url, true);
                         xhr.send();
