@@ -1,14 +1,14 @@
 {
-  "name": "pop-team-crash",
+  "name": "mini-projects",
   "version": "0.0.1",
-  "description": "kusoge",
-  "main": "index.js",
-  "scripts": {
-    "start": "live-server app"
-  },
   "author": "TatsuyaYamamoto",
-  "license": "MIT",
+  "scripts": {
+    "deploy": "    npm run build && firebase deploy --project minis-development",
+    "deploy-pro": "npm run build && firebase deploy --project minis-production",
+    "build": "run-p build:*",
+    "build:pop-team-crash": "npm run --prefix projects/pop-team-crash build"
+  },
   "devDependencies": {
-    "live-server": "^1.2.0"
+    "npm-run-all": "^4.1.2"
   }
 }

@@ -7,12 +7,20 @@
     <question-svg id="question-icon" onclick={showHelp}></question-svg>
     <twitter-svg id="twitter-icon" onclick={showTweetView}></twitter-svg>
 
+    <pop-counter id="counter"></pop-counter>
+
     <script>
         this.crash = () => this.trigger("crash");
 
         this.goNameView = () => route("/");
 
-        this.showHelp = () => swal({text: "画像をタップか、端末を振る"});
+        this.showHelp = () => swal({
+            html:
+            "<h3>あそびかた</h3>" +
+            "<div>画像をタップか、端末を振る</div>" +
+            "<h3>つくったひと</h3>" +
+            "<div><a href=\"http://www.sokontokoro-factory.net\">そこんところ工房</a></div>"
+        });
 
         this.showTweetView = () => this.goTweetPage(this.opts.shoutWord);
 
@@ -66,6 +74,12 @@
             right: 17%;
             height: 8%;
             width: 8%;
+        }
+
+        #counter {
+            position: absolute;
+            bottom: 3%;
+            right: 2%;
         }
     </style>
 </pop-crash-before>

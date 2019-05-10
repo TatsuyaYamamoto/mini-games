@@ -1,0 +1,66 @@
+<pop-counter>
+    <div class="row">
+        <span class="red-character">み</span>
+        <span class="blue-character">な</span>
+        <span class="red-character">さ</span>
+        <span class="blue-character">ん</span>
+        <span class="number">{totalCrashNumber}ゥァアーッ</span>
+    </div>
+    <div class="row">
+        <span class="blue-character">あ</span>
+        <span class="red-character">な</span>
+        <span class="blue-character">た</span>
+        <span class="number">{ownCrashNumber}ゥァアーッ</span>
+    </div>
+
+    <script>
+        this.mixin("firebase");
+
+        this.totalCrashNumber = 0;
+        this.ownCrashNumber = 0;
+
+        this.on("mount", () => {
+            this.onTotalUpdated((value) => this.update({totalCrashNumber: value}));
+            this.onOwnUpdated((value) => this.update({ownCrashNumber: value}));
+        });
+    </script>
+    <style>
+        :scope {
+            background-color: gray;
+
+            font-size: 2vw;
+            text-align: center;
+
+            background: #ffffff;
+            border: solid 4px black;
+            border-radius: 3%;
+
+            color: white;
+
+        }
+
+        .row {
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+            margin-left: 1vw;
+        }
+
+        .number {
+            padding:  0.5vw;
+            border-radius: 1vw;
+            color: black;
+        }
+
+        .red-character {
+            background-color: red;
+            padding: 0.5vw;
+            border-radius: 1vw;
+        }
+
+        .blue-character {
+            background-color: blue;
+            padding:  0.5vw;
+            border-radius: 1vw;
+        }
+    </style>
+</pop-counter>

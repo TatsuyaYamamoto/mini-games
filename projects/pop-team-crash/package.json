@@ -1,0 +1,16 @@
+{
+  "name": "pop-team-crash",
+  "version": "0.0.1",
+  "description": "kusoge",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server app",
+    "build": "cpx 'app/**/*' '../../public/pop-team-crash/'"
+  },
+  "author": "TatsuyaYamamoto",
+  "license": "MIT",
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "live-server": "^1.2.0"
+  }
+}

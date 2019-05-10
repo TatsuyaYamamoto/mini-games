@@ -1,0 +1,159 @@
+<pop-app>
+    <router>
+        <route path="name">
+            <pop-name/>
+        </route>
+
+        <route path="crash">
+            <pop-crash/>
+        </route>
+
+        <!--redirect-->
+        <route path="">
+            <pop-name/>
+        </route>
+    </router>
+
+    <script>
+        const firebaseConfig = location.host === "minis.sokontokoro-factory.net" ? {
+          apiKey: "AIzaSyDWsffjR_jDO9DNkdhnN3nyGGlOw3cvhps",
+          authDomain: "minis-production.firebaseapp.com",
+          databaseURL: "https://minis-production.firebaseio.com",
+          projectId: "minis-production",
+          storageBucket: "minis-production.appspot.com",
+          messagingSenderId: "676233370674",
+          appId: "1:676233370674:web:4e77156679101b56"
+        } : {
+          apiKey: 'AIzaSyCE7BpKRP8PyxswYJogsOuHo7-qFp5pbHs',
+          authDomain: 'minis-development.firebaseapp.com',
+          databaseURL: 'https://minis-development.firebaseio.com',
+          projectId: 'minis-development',
+          storageBucket: 'minis-development.appspot.com',
+          messagingSenderId: '593638189965',
+          appId: '1:593638189965:web:dc0a2f0f4b18edc6',
+        };
+
+        const firebaseFunctionDomain = location.host === "minis.sokontokoro-factory.net" ?
+          "us-central1-minis-production.cloudfunctions.net" :
+          "us-central1-minis-development.cloudfunctions.net";
+
+
+
+        this.on("mount", () => {
+            window.addEventListener("orientationchange", this.handleRotateAlert);
+
+            this.handleRotateAlert();
+        });
+
+        this.isLandscape = () => {
+            const angle = screen || screen.orientation || screen.orientation.angle || window.orientation || 0;
+            return Math.abs(angle) % 180 === 90;
+        };
+
+        this.handleRotateAlert = () => {
+            if (this.isLandscape()) {
+                swal({text: "横画面に対応していないクソアプリ"});
+            } else {
+                swal.close();
+            }
+        };
+
+        (function () {
+            var TWEET_PAGE_URL = "https://twitter.com/intent/tweet";
+            var GAME_PAGE_URL = "";
+
+            riot.mixin("links", {
+                goTweetPage: function (text) {
+                    location.href = `${TWEET_PAGE_URL}?hashtags=ポプテクラッシュ+%23そこんところ工房&text=${text}&url=${GAME_PAGE_URL}`;
+                }
+            });
+        })();
+
+        (function () {
+            var LOCAL_STORAGE_KEY = "POP_TEAM_CRASH_STORAGE";
+            var INITIAL_VALUES = {
+                "sign_board_character": "竹◯某"
+            };
+
+            riot.mixin("storage", {
+                init: function () {
+                    if (!this._getItems()) {
+                        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(INITIAL_VALUES));
+                    }
+                },
+                getSignBoardCharacter: function () {
+                    return this._getItems()["sign_board_character"];
+                },
+                setSignBoardCharacter: function (char) {
+                    const items = this._getItems();
+                    items["sign_board_character"] = char;
+
+                    this._setItems(items);
+                },
+                _getItems: function () {
+                    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+                },
+                _setItems: function (items) {
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
+                }
+            })
+        })();
+
+        (function () {
+            firebase.initializeApp(firebaseConfig);
+
+            const auth = firebase.auth();
+            const database = firebase.database();
+            const observableFirebase = riot.observable();
+
+            auth.onAuthStateChanged(function (user) {
+                if (user) {
+                    database.ref(`popTeamCrash/users/${user.uid}`).on("value", function (snapshot) {
+                        observableFirebase.trigger("updateOwn", snapshot.val() || 0);
+                    });
+
+                    database.ref("popTeamCrash/total").on("value", function (snapshot) {
+                        observableFirebase.trigger("updateTotal", snapshot.val() || 0);
+                    });
+
+                    observableFirebase.on("*", function (name, props) {
+                        console.log(`on ${name}`, props);
+                    });
+
+                    observableFirebase.on("crash", function () {
+                        const url = `https://${firebaseFunctionDomain}/popTeamCrash/users/${user.uid}/crash`;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("PUT", url, true);
+                        xhr.send();
+                    });
+                }
+            });
+
+            auth.signInAnonymously();
+
+            riot.mixin("firebase", {
+                onTotalUpdated: function (listener) {
+                    observableFirebase.on("updateTotal", listener);
+                },
+                onOwnUpdated: function (listener) {
+                    observableFirebase.on("updateOwn", listener);
+                },
+                sendCrashEvent: function () {
+                    observableFirebase.trigger("crash");
+                }
+            })
+
+        })();
+    </script>
+
+    <style>
+        :scope {
+            position: relative;
+            display: block;
+            background-color: rgba(0, 0, 0, 0.05);
+            width: 100%;
+            /* Aspect ratio of crash image. */
+            padding-top: 68%;
+        }
+    </style>
+</pop-app>
